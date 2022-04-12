@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  oss-1:
+    image: 'bitnami/minio:latest'
+    environment:
+      - MINIO_ROOT_USER=minio-root-user
+      - MINIO_ROOT_PASSWORD=minio-root-password
+      - MINIO_DISTRIBUTED_MODE_ENABLED=yes
+      - MINIO_DISTRIBUTED_NODES=oss-1,oss-2,oss-3,oss-4
+      - MINIO_ETCD_ENDPOINTS=http://etcd:2379
+      - MINIO_SKIP_CLIENT=yes
+    ports:
+      - "9021:9000"
+      - "19021:9001"
+    volumes:
+      - oss-data-1:/data
+    networks:
+      - laf_shared_network
+
+  oss-2:
+    image: 'bitnami/minio:latest'
+    environment:
+      - MINIO_ROOT_USER=minio-root-user
+      - MINIO_ROOT_PASSWORD=minio-root-password
+      - MINIO_DISTRIBUTED_MODE_ENABLED=yes
+      - MINIO_DISTRIBUTED_NODES=oss-1,oss-2,oss-3,oss-4
+      - MINIO_SKIP_CLIENT=yes
+      - MINIO_ETCD_ENDPOINTS=http://etcd:2379
+    volumes:
+      - oss-data-2:/data
+    ports:
+      - "9022:9000"
+      - "19022:9001"
+    networks:
+      - laf_shared_network
+
+  oss-3:
+    image: 'bitnami/minio:latest'
+    environment:
+      - MINIO_ROOT_USER=minio-root-user
+      - MINIO_ROOT_PASSWORD=minio-root-password
+      - MINIO_DISTRIBUTED_MODE_ENABLED=yes
+      - MINIO_DISTRIBUTED_NODES=oss-1,oss-2,oss-3,oss-4
+      - MINIO_SKIP_CLIENT=yes
+      - MINIO_ETCD_ENDPOINTS=http://etcd:2379
+    volumes:
+      - oss-data-3:/data
+    ports:
+      - "9023:9000"
+      - "19023:9001"
+    networks:
+      - laf_shared_network
+
+  oss-4:
+    image: 'bitnami/minio:latest'
+    environment:
+      - MINIO_ROOT_USER=minio-root-user
+      - MINIO_ROOT_PASSWORD=minio-root-password
+      - MINIO_DISTRIBUTED_MODE_ENABLED=yes
+      - MINIO_DISTRIBUTED_NODES=oss-1,oss-2,oss-3,oss-4
+      - MINIO_SKIP_CLIENT=yes
+      - MINIO_ETCD_ENDPOINTS=http://etcd:2379
+    volumes:
+      - oss-data-4:/data
+    ports:
+      - "9024:9000"
+      - "19024:9001"
+    networks:
+      - laf_shared_network
+
+  etcd:
+    image: 'bitnami/etcd:latest'
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+    volumes:
+      - etcd-data:/bitnami/etcd/data
+    ports:
+      - 12379:2379
+      - 12380:2380
+    networks:
+      - laf_shared_network
+
+volumes:
+  oss-data-1:
+  oss-data-2:
+  oss-data-3:
+  oss-data-4:
+  etcd-data:
+
+networks:
+  laf_shared_network:
+    external: true

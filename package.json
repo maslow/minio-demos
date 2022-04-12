@@ -1,0 +1,21 @@
+{
+  "name": "minio-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.58.0",
+    "@aws-sdk/client-sts": "^3.58.0",
+    "@aws-sdk/credential-providers": "^3.58.0",
+    "@aws-sdk/s3-request-presigner": "^3.58.0",
+    "aws-sdk": "^2.1106.0",
+    "minio": "^7.0.26",
+    "oidc-provider": "^7.10.6"
+  }
+}
